@@ -6,8 +6,15 @@ lockboxes solution
 
 def canUnlockAll(boxes):
     """
-    Return True if all boxes can be
-    opened, else return False
+    Determines if all boxes in the list can be unlocked,
+    given that each box contains a set of keys to other boxes.
+
+    Args:
+        boxes (list[list[int]]): A list of boxes, where
+        boxes[i] contains a set of keys to other boxes.
+
+    Returns:
+        bool: True if all boxes can be unlocked, False otherwise.
     """
     n = len(boxes)
     visited = set()
