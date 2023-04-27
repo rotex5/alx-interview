@@ -16,6 +16,7 @@ def canUnlockAll(boxes):
     Returns:
         bool: True if all boxes can be unlocked, False otherwise.
     """
+    """
     n = len(boxes)
     visited = set()
     stack = [0]
@@ -29,3 +30,15 @@ def canUnlockAll(boxes):
                 stack.append(key)
 
     return len(visited) == n
+    """
+    unlocked_boxes = set()
+    keys = set([0])
+
+    while keys:
+        key = keys.pop()
+        unlocked_boxes.add(key)
+
+        for box_key in boxes[key]:
+            if box_key not in unlocked_boxes:
+                keys.add(box_key)
+    return len(unlocked_boxes) == len(boxes)
