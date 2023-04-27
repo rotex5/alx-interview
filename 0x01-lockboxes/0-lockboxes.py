@@ -31,14 +31,20 @@ def canUnlockAll(boxes):
 
     return len(visited) == n
     """
-    unlocked_boxes = set()
-    keys = set([0])
+    keys = {0: True}
+    length = len(boxes)
 
-    while keys:
-        key = keys.pop()
-        unlocked_boxes.add(key)
+    while True:
+        n_keys = len(keys)
 
-        for box_key in boxes[key]:
-            if box_key not in unlocked_boxes:
-                keys.add(box_key)
-    return len(unlocked_boxes) == len(boxes)
+        for i, box in enumerate(boxes):
+            if box and keys.get(i, False):
+                for j in box:
+                    if j < length:
+                        keys[j] = True
+                boxes[i] = None
+
+        if len(keys) == n_keys:
+            break
+
+    return len(keys) == length
