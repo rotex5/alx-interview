@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Minimum Operations
 Learning Dynamic programming
@@ -10,8 +10,6 @@ def minOperations(n: int) -> int:
     calculates the fewest number of
     operations needed to result in exactly n H
     characters in this file.
-    """
-    """
     checker issues
     if n < 1:
         return 0
