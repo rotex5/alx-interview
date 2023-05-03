@@ -15,8 +15,8 @@ def minOperations(n: int) -> int:
     if n <= 1:
         return 0
 
-    dp: int = 0
-    count: int = 2
+    dp = 0
+    count = 2
     while (count <= n):
         if not (n % count):
             n = int(n / count)
