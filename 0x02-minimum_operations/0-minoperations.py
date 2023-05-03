@@ -1,9 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """
 Minimum Operations
 Learning Dynamic programming
 """
-# from typing import Union
 
 
 def minOperations(n: int) -> int:
@@ -12,22 +11,8 @@ def minOperations(n: int) -> int:
     operations needed to result in exactly n H
     characters in this file.
     """
-    if n <= 1:
-        return 0
-
-    dp: int = 0
-    count: int = 2
-    while (count <= n):
-        if not (n % count):
-            n = int(n / count)
-            dp += count
-            count = 1
-        count += 1
-    return dp
-
-
-"""
-checker issues
+    """
+    checker issues
     if n < 1:
         return 0
 
@@ -55,11 +40,24 @@ checker issues
     return dp[-1]
 
 
-def is_prime(n: int) -> bool:
+    def is_prime(n: int) -> bool:
     if n < 2:
         return False
     for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return False
     return True
-"""
+    """
+
+    if n <= 1:
+        return 0
+
+    dp: int = 0
+    count: int = 2
+    while (count <= n):
+        if not (n % count):
+            n = int(n / count)
+            dp += count
+            count = 1
+        count += 1
+    return dp
