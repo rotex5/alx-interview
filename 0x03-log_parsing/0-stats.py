@@ -29,9 +29,12 @@ def logParser():
                 counter = 0
         logDisplay(total_size, status_codes)
 
-    except KeyboardInterrupt as e:
+    except Exception as e:
+        pass
+
+    finally:
         logDisplay(total_size, status_codes)
-        raise
+
 
 
 def logDisplay(total_size, status_codes):
