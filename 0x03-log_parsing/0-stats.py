@@ -9,10 +9,10 @@ def logParser():
     """
     Reads stdin line by line
     """
+    counter = 0
+    total_size = 0
     status_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
                     '403': 0, '404': 0, '405': 0, '500': 0}
-    total_size = 0
-    counter = 0
 
     try:
         for line in sys.stdin:
@@ -29,12 +29,9 @@ def logParser():
                 counter = 0
         logDisplay(total_size, status_codes)
 
-    except Exception as e:
-        pass
-
-    finally:
+    except KeyboardInterrupt as e:
         logDisplay(total_size, status_codes)
-
+        raise
 
 
 def logDisplay(total_size, status_codes):
