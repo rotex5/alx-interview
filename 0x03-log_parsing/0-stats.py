@@ -3,48 +3,46 @@
 Script that reads stdin line by line and computes metrics:
 """
 import sys
-from collections import defaultdict
 
 
-total_size = 0
-status_code_counts = defaultdict(int)
-line_count = 0
-
-for line in sys.stdin:
-    # print(line)
-    try:
-        _, _, _, _, _, _, _, status_code_str, file_size_str = line.split()
-        status_code = int(status_code_str)
-        file_size = int(file_size_str)
-        # print(status_code, file_size)
-    except ValueError:
-        continue
-
-    total_size += file_size
-    status_code_counts[status_code] += 1
-    line_count += 1
-
-    if line_count % 10 == 0:
-        print(f"Total file size: {total_size}")
-        for status_code in sorted(status_code_counts.keys()):
-            count = status_code_counts[status_code]
-            if count > 0:
-                print(f"{status_code}: {count}")
+def logParser():
+    """
+    Reads stdin line by line
+    """
+    status_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
+                    '403': 0, '404': 0, '405': 0, '500': 0}
+    total_size = 0
+    counter = 0
 
     try:
-        # Check if user pressed CTRL + C
-        if sys.stdin.isatty() and sys.stdin.read(1) == '\x03':
-            print(f"Total file size: {total_size}")
-            for status_code in sorted(status_code_counts.keys()):
-                count = status_code_counts[status_code]
-                if count > 0:
-                    print(f"{status_code}: {count}")
-            sys.exit(0)
-    except KeyboardInterrupt:
-        # User pressed CTRL + C
-        print(f"Total file size: {total_size}")
-        for status_code in sorted(status_code_counts.keys()):
-            count = status_code_counts[status_code]
-            if count > 0:
-                print(f"{status_code}: {count}")
-        sys.exit(0)
+        for line in sys.stdin:
+            _, _, _, _, _, _, _, code_str, file_size_str = line.split()
+            if code_str and file_size_str:
+                size = int(file_size_str)
+                if code_str in status_codes.keys():
+                    status_codes[code_str] += 1
+                total_size += size
+                counter += 1
+
+            if counter == 10:
+                logDisplay(total_size, status_codes)
+                counter = 0
+        logDisplay(total_size, status_codes)
+
+    except KeyboardInterrupt as e:
+        logDisplay(total_size, status_codes)
+        raise
+
+
+def logDisplay(total_size, status_codes):
+    """
+    Outputs computed metric from logParser()
+    """
+    print('File size: {}'.format(total_size))
+    for key, value in sorted(status_codes.items()):
+        if value != 0:
+            print('{}: {}'.format(key, value))
+
+
+if __name__ == '__main__':
+    logParser()
