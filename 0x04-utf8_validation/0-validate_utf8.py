@@ -34,8 +34,8 @@ def validUTF8(data):
     """
     determines if a given data set represents a valid UTF-8 encoding
     """
-    if data is None:
-        return False
+    #if data is None:
+    #   return False
 
     # Variable to track the number of bytes in the current UTF-8 character
     num_bytes = 0
