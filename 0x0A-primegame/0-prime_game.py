@@ -33,50 +33,19 @@ def isWinner(x, nums):
                 return False
         return True
 
-    def get_next_prime(start):
-        """
-        Finds the next prime number greater than the given number.
-
-        Args:
-            start (int): The starting number.
-
-        Returns:
-            int: The next prime number greater than 'start'.
-        """
-        num = start + 1
-        while not is_prime(num):
-            num += 1
-        return num
-
-    def game_winner(n):
-        """
-        Determines the winner of a single round of the game.
-
-        Args:
-            n (int): The value of 'n' for the current round.
-
-        Returns:
-            str: The name of the player who wins the round.
-            Returns 'Maria' or 'Ben'.
-        """
-        prime = 2
-        while prime <= n:
-            if n % prime == 0:
-                n -= prime
-                prime = get_next_prime(prime)
-            else:
-                prime = get_next_prime(prime)
-        return "Maria" if n % 2 == 0 else "Ben"
-
     maria_wins = 0
     ben_wins = 0
 
     for n in nums:
-        winner = game_winner(n)
-        if winner == "Maria":
-            maria_wins += 1
-        elif winner == "Ben":
+        prime_count = 0
+        for i in range(2, n + 1):
+            if is_prime(i):
+                prime_count += 1
+
+        if prime_count % 2 == 0:
             ben_wins += 1
+        else:
+            maria_wins += 1
 
     if maria_wins > ben_wins:
         return "Maria"
