@@ -16,60 +16,40 @@ def isWinner(x, nums):
       str: Name of the player who won the most rounds.
            If the winner cannot be determined, returns None.
     """
-    if not nums or x < 1:
-        return None
+    def is_prime(num):
+        """
+        Checks if a given number is prime.
 
-    wins = 0
+        Args:
+            num (int): The number to check.
+
+        Returns:
+            bool: True if the number is prime, False otherwise.
+        """
+        if num < 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    maria_wins = 0
+    ben_wins = 0
 
     for n in nums:
-        primes = c_primes(n)
-        if primes % 2 == 1:
-            wins += 1
+        prime_count = 0
+        for i in range(2, n + 1):
+            if is_prime(i):
+                prime_count += 1
 
-    if wins % 2 == 0:
+        if prime_count % 2 == 0:
+            ben_wins += 1
+        else:
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif ben_wins > maria_wins:
         return "Ben"
-    return "Maria"
-
-
-def c_primes(n):
-    """
-    Counts the number of prime numbers up to and including n.
-
-    Args:
-      n (int): The upper limit.
-
-    Returns:
-      int: The count of prime numbers.
-    """
-    if n < 2:
-        return 0
-
-    primes = [True] * (n + 1)
-    primes[0] = primes[1] = False
-
-    for i in range(2, int(n ** 0.5) + 1):
-        if primes[i]:
-            for j in range(i * i, n + 1, i):
-                primes[j] = False
-
-    return sum(primes)
-
-
-def prime_num(num):
-    """
-    Checks if a number is prime.
-
-    Args:
-      num (int): The number to check.
-
-    Returns:
-      bool: True if the number is prime, False otherwise.
-    """
-    if num < 2:
-        return False
-
-    for i in range(2, int(num ** 0.5) + 1):
-        if num % i == 0:
-            return False
-
-    return True
+    else:
+        return None
