@@ -33,23 +33,39 @@ def isWinner(x, nums):
                 return False
         return True
 
-    maria_wins = 0
-    ben_wins = 0
+    def c_primes(n):
+        """
+        Counts the number of prime numbers up to and including n.
+
+        Args:
+        n (int): The upper limit.
+
+        Returns:
+        int: The count of prime numbers.
+        """
+        if n < 2:
+            return 0
+
+        primes = [True] * (n + 1)
+        primes[0] = primes[1] = False
+
+        for i in range(2, int(n ** 0.5) + 1):
+            if primes[i]:
+                for j in range(i * i, n + 1, i):
+                    primes[j] = False
+
+        return sum(primes)
+
+    if not nums or x < 1:
+        return None
+
+    wins = 0
 
     for n in nums:
-        prime_count = 0
-        for i in range(2, n + 1):
-            if is_prime(i):
-                prime_count += 1
+        primes = c_primes(n)
+        if primes % 2 == 1:
+            wins += 1
 
-        if prime_count % 2 == 0:
-            ben_wins += 1
-        else:
-            maria_wins += 1
-
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif ben_wins > maria_wins:
+    if wins % 2 == 0:
         return "Ben"
-    else:
-        return None
+    return "Maria"
